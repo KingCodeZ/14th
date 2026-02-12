@@ -2,8 +2,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Kemi 🌸</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>For Kemi</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
 
@@ -12,9 +14,16 @@
 body{
   overflow:hidden;
   font-family:'Playfair Display', serif;
-  background:#fceff4;
+  background:#ffb8d3;
   transition:background 2s ease;
   -webkit-tap-highlight-color:transparent;
+  -webkit-touch-callout:none;
+  -webkit-user-select:none;
+  user-select:none;
+  position:fixed;
+  width:100%;
+  height:100vh;
+  overscroll-behavior:none;
 }
 
 .section{
@@ -43,6 +52,7 @@ canvas{
   top:0;
   left:0;
   z-index:-2;
+  pointer-events:none;
 }
 
 .vignette{
@@ -58,20 +68,20 @@ canvas{
 
 #introText{
   font-family:'Dancing Script', cursive;
-  font-size:2.5rem;
-  max-width:750px;
+  font-size:clamp(1.3rem, 5vw, 2.5rem);
+  max-width:90%;
   text-align:center;
   transition:opacity .5s ease;
   padding:0 20px;
   cursor:pointer;
-  user-select:none;
+  line-height:1.5;
 }
 
 #continueHint{
   position:absolute;
-  bottom:40px;
+  bottom:max(30px, env(safe-area-inset-bottom));
   font-family:'Dancing Script', cursive;
-  font-size:1rem;
+  font-size:clamp(0.8rem, 3vw, 1rem);
   color:rgba(128,0,0,0.6);
   animation:fadeInOut 2s infinite;
 }
@@ -91,24 +101,24 @@ canvas{
 #question::before{
   content:"";
   position:absolute;
-  width:300px;
-  height:300px;
+  width:min(300px, 50vw);
+  height:min(300px, 50vw);
   background:radial-gradient(circle, rgba(255,255,255,0.1), transparent);
   border-radius:50%;
-  top:-100px;
-  right:-100px;
+  top:-15%;
+  right:-15%;
   animation:floatBubble 8s infinite ease-in-out;
 }
 
 #question::after{
   content:"";
   position:absolute;
-  width:200px;
-  height:200px;
+  width:min(200px, 40vw);
+  height:min(200px, 40vw);
   background:radial-gradient(circle, rgba(255,105,180,0.15), transparent);
   border-radius:50%;
-  bottom:-50px;
-  left:-50px;
+  bottom:-10%;
+  left:-10%;
   animation:floatBubble 6s infinite ease-in-out reverse;
 }
 
@@ -118,45 +128,46 @@ canvas{
 }
 
 .question-box{
-  padding:60px 40px;
-  border-radius:30px;
+  padding:clamp(30px, 8vw, 60px) clamp(25px, 6vw, 40px);
+  border-radius:clamp(20px, 5vw, 30px);
   background:linear-gradient(145deg,rgba(255,77,109,0.95),rgba(128,0,0,0.95));
   backdrop-filter:blur(10px);
   color:white;
-  box-shadow:0 0 60px rgba(255,0,60,0.6), 
-             inset 0 0 30px rgba(255,255,255,0.1);
+  box-shadow:0 0 40px rgba(255,0,60,0.6), 
+             inset 0 0 20px rgba(255,255,255,0.1);
   text-align:center;
-  max-width:90%;
+  max-width:95%;
   position:relative;
   border:2px solid rgba(255,255,255,0.2);
   animation:boxGlow 3s infinite alternate;
+  will-change:box-shadow;
 }
 
 @keyframes boxGlow{
-  from{box-shadow:0 0 40px rgba(255,0,60,0.5), inset 0 0 20px rgba(255,255,255,0.1);}
-  to{box-shadow:0 0 80px rgba(255,0,100,0.8), inset 0 0 40px rgba(255,255,255,0.15);}
+  from{box-shadow:0 0 30px rgba(255,0,60,0.5), inset 0 0 15px rgba(255,255,255,0.1);}
+  to{box-shadow:0 0 60px rgba(255,0,100,0.8), inset 0 0 30px rgba(255,255,255,0.15);}
 }
 
 .question-box h1{
-  font-size:2rem;
-  margin-bottom:30px;
-  text-shadow:0 0 20px rgba(255,255,255,0.5),
-              0 0 40px rgba(255,105,180,0.5);
+  font-size:clamp(1.3rem, 5vw, 2rem);
+  margin-bottom:clamp(20px, 5vw, 30px);
+  text-shadow:0 0 15px rgba(255,255,255,0.5),
+              0 0 30px rgba(255,105,180,0.5);
   animation:textShimmer 2s infinite alternate;
 }
 
 @keyframes textShimmer{
-  from{text-shadow:0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,105,180,0.5);}
-  to{text-shadow:0 0 30px rgba(255,255,255,0.8), 0 0 60px rgba(255,105,180,0.8);}
+  from{text-shadow:0 0 15px rgba(255,255,255,0.5), 0 0 30px rgba(255,105,180,0.5);}
+  to{text-shadow:0 0 25px rgba(255,255,255,0.8), 0 0 50px rgba(255,105,180,0.8);}
 }
 
 .question-box::before{
   content:"💕";
   position:absolute;
-  top:-30px;
+  top:-20px;
   left:50%;
   transform:translateX(-50%);
-  font-size:3rem;
+  font-size:clamp(2rem, 8vw, 3rem);
   animation:heartFloat 2s infinite ease-in-out;
   filter:drop-shadow(0 5px 15px rgba(255,105,180,0.8));
 }
@@ -176,9 +187,10 @@ canvas{
 
 .floating-heart{
   position:absolute;
-  font-size:2rem;
+  font-size:clamp(1.5rem, 4vw, 2rem);
   opacity:0.3;
   animation:floatUp 8s infinite linear;
+  will-change:transform, opacity;
 }
 
 @keyframes floatUp{
@@ -195,30 +207,26 @@ canvas{
   }
 }
 
-.question-box h1{
-  font-size:2rem;
-  margin-bottom:30px;
-}
-
 .button-container{
   display:flex;
   flex-direction:column;
-  gap:15px;
+  gap:clamp(12px, 3vw, 15px);
   align-items:center;
 }
 
 button{
-  padding:15px 40px;
+  padding:clamp(12px, 3vw, 15px) clamp(30px, 8vw, 40px);
   border:none;
   border-radius:40px;
-  font-size:1.1rem;
+  font-size:clamp(0.95rem, 3.5vw, 1.1rem);
   cursor:pointer;
   transition:.3s;
-  min-width:200px;
+  min-width:clamp(160px, 50vw, 200px);
   font-weight:600;
   touch-action:manipulation;
   position:relative;
   overflow:hidden;
+  -webkit-tap-highlight-color:transparent;
 }
 
 button::before{
@@ -243,52 +251,58 @@ button:active{
   transform:scale(0.95);
 }
 
-button:hover{
-  transform:scale(1.05);
+@media (hover: hover){
+  button:hover{
+    transform:scale(1.05);
+  }
 }
 
 #yes{
   background:linear-gradient(135deg, #ffffff, #ffe4e1);
   color:#800000;
-  box-shadow:0 5px 25px rgba(255,255,255,0.4),
-             inset 0 -2px 10px rgba(255,105,180,0.3);
+  box-shadow:0 4px 20px rgba(255,255,255,0.4),
+             inset 0 -2px 8px rgba(255,105,180,0.3);
   border:2px solid rgba(255,105,180,0.5);
 }
 
-#yes:hover{
-  box-shadow:0 8px 35px rgba(255,255,255,0.6),
-             inset 0 -2px 15px rgba(255,105,180,0.5);
-  transform:scale(1.08) translateY(-2px);
+@media (hover: hover){
+  #yes:hover{
+    box-shadow:0 6px 30px rgba(255,255,255,0.6),
+               inset 0 -2px 12px rgba(255,105,180,0.5);
+    transform:scale(1.08) translateY(-2px);
+  }
 }
 
 #no{
   background:linear-gradient(135deg, #1a1a1a, #000000);
   color:white;
-  box-shadow:0 5px 25px rgba(0,0,0,0.5),
-             inset 0 2px 10px rgba(255,255,255,0.1);
+  box-shadow:0 4px 20px rgba(0,0,0,0.5),
+             inset 0 2px 8px rgba(255,255,255,0.1);
   border:2px solid rgba(255,255,255,0.2);
 }
 
-#no:hover{
-  box-shadow:0 8px 35px rgba(0,0,0,0.7),
-             inset 0 2px 15px rgba(255,255,255,0.2);
-  transform:scale(1.08) translateY(-2px);
+@media (hover: hover){
+  #no:hover{
+    box-shadow:0 6px 30px rgba(0,0,0,0.7),
+               inset 0 2px 12px rgba(255,255,255,0.2);
+    transform:scale(1.08) translateY(-2px);
+  }
 }
 
 .cheeky-popup{
   position:fixed;
-  bottom:80px;
+  bottom:max(70px, calc(70px + env(safe-area-inset-bottom)));
   left:50%;
   transform:translateX(-50%);
   background:white;
-  padding:15px 30px;
+  padding:clamp(12px, 3vw, 15px) clamp(20px, 5vw, 30px);
   border-radius:30px;
   font-family:'Dancing Script', cursive;
   box-shadow:0 0 20px pink;
   z-index:1000;
-  max-width:85%;
+  max-width:90%;
   text-align:center;
-  font-size:1.1rem;
+  font-size:clamp(0.9rem, 3vw, 1.1rem);
   animation:popupSlide 0.3s ease;
 }
 
@@ -307,8 +321,8 @@ button:hover{
 
 .heart-frame{
   position:relative;
-  width:200px;
-  height:200px;
+  width:clamp(120px, 35vw, 200px);
+  height:clamp(120px, 35vw, 200px);
   margin:20px auto;
   filter:drop-shadow(0 10px 30px rgba(255,105,180,0.5));
   display:flex;
@@ -321,14 +335,14 @@ button:hover{
   content:"";
   position:absolute;
   top:0;
-  width:100px;
-  height:160px;
+  width:50%;
+  height:80%;
   background:linear-gradient(145deg, #ff4d6d, #ff1744);
   border-radius:100px 100px 0 0;
 }
 
 .heart-frame::before{
-  left:100px;
+  left:50%;
   transform:rotate(-45deg);
   transform-origin:0 100%;
 }
@@ -343,11 +357,11 @@ button:hover{
   position:relative;
   z-index:10;
   font-family:'Dancing Script', cursive;
-  font-size:1.8rem;
+  font-size:clamp(1.2rem, 4vw, 1.8rem);
   color:white;
   text-align:center;
   text-shadow:0 2px 10px rgba(0,0,0,0.3);
-  padding:20px;
+  padding:15px;
   line-height:1.3;
   animation:messageGlow 3s infinite alternate;
 }
@@ -364,43 +378,14 @@ button:hover{
 }
 
 #countdownText{
-  font-size:2rem;
+  font-size:clamp(1.2rem, 4.5vw, 2rem);
   margin-top:20px;
   text-align:center;
   font-weight:bold;
   padding:0 20px;
 }
 
-/* NIGHT */
-
-.night-mode{
-  background:radial-gradient(circle at top, #1a1a2e, #000);
-  color:white;
-}
-
-/* TREE */
-
-.tree-container{
-  position:absolute;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  opacity:.6;
-  z-index:-1;
-}
-
-.tree{
-  width:400px;
-  animation:treeGlow 4s infinite alternate ease-in-out;
-  filter:drop-shadow(0 0 15px pink);
-}
-
-@keyframes treeGlow{
-  from{filter:drop-shadow(0 0 10px pink);}
-  to{filter:drop-shadow(0 0 35px hotpink);}
-}
-
-/* OMINOUS */
+/* FINAL */
 
 #finalReveal{
   background:black;
@@ -420,21 +405,20 @@ button:hover{
   to{transform:scale(1.1);filter:brightness(1);}
 }
 
-/* BACKGROUND PHOTO SLIDER */
 .photo-slider{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%, -50%);
-  width:80%;
-  max-width:500px;
-  height:60%;
-  max-height:400px;
+  width:85%;
+  max-width:450px;
+  height:50%;
+  max-height:350px;
   z-index:1;
   opacity:0.15;
   overflow:hidden;
   border-radius:20px;
-  box-shadow:0 0 50px rgba(255,105,180,0.2);
+  box-shadow:0 0 40px rgba(255,105,180,0.2);
 }
 
 .photo-slider img{
@@ -444,158 +428,81 @@ button:hover{
 }
 
 .gift-button{
-  width:200px;
-  height:200px;
-  border-radius:30px;
+  width:clamp(140px, 40vw, 200px);
+  height:clamp(140px, 40vw, 200px);
+  border-radius:clamp(20px, 5vw, 30px);
   background:linear-gradient(145deg,#ff4d6d,#800000);
-  box-shadow:0 0 50px red;
+  box-shadow:0 0 40px red;
   display:flex;
   justify-content:center;
   align-items:center;
   text-decoration:none;
   animation:giftGlow 2s infinite alternate;
-  font-size:3rem;
+  font-size:clamp(2rem, 8vw, 3rem);
   position:relative;
   z-index:10;
+  touch-action:manipulation;
 }
 
 @keyframes giftGlow{
-  from{box-shadow:0 0 30px red;}
-  to{box-shadow:0 0 80px crimson;}
+  from{box-shadow:0 0 25px red;}
+  to{box-shadow:0 0 60px crimson;}
 }
 
-.gift-button:hover{
-  transform:scale(1.1) rotate(3deg);
+@media (hover: hover){
+  .gift-button:hover{
+    transform:scale(1.1) rotate(3deg);
+  }
 }
 
 .gift-button:active{
   transform:scale(0.95);
 }
 
-/* MOBILE OPTIMIZATIONS */
+.gift-button img{
+  width:clamp(35px, 10vw, 50px);
+  height:clamp(35px, 10vw, 50px);
+}
 
-@media (max-width: 768px) {
-  #introText{
-    font-size:1.8rem;
-  }
-  
-  #continueHint{
-    font-size:0.9rem;
-    bottom:30px;
-  }
-  
-  .question-box{
-    padding:40px 30px;
-  }
-  
-  .question-box h1{
-    font-size:1.5rem;
-  }
-  
-  button{
-    font-size:1rem;
-    padding:12px 35px;
-    min-width:180px;
-  }
-  
-  .cheeky-popup{
-    font-size:0.95rem;
-    padding:12px 25px;
-    bottom:60px;
-  }
-  
-  #countdownText{
-    font-size:1.5rem;
-  }
-  
-  .heart-frame{
-    width:160px;
-    height:160px;
-  }
-  
-  .heart-frame::before,
-  .heart-frame::after{
-    width:80px;
-    height:128px;
-  }
-  
-  .heart-frame::before{
-    left:80px;
-  }
-  
-  .heart-message{
-    font-size:1.4rem;
-    padding:15px;
-  }
-  
-  .photo-slider{
-    width:85%;
-    max-width:400px;
-    height:50%;
-    max-height:300px;
-  }
-  
-  .gift-button{
-    width:160px;
-    height:160px;
-    font-size:2.5rem;
+/* PLAY BUTTON */
+#playButton{
+  display:none;
+  margin-left:15px;
+  padding:clamp(8px, 2vw, 10px) clamp(15px, 4vw, 20px);
+  background:linear-gradient(145deg, #ff4d6d, #ff1744);
+  border:none;
+  border-radius:50px;
+  color:white;
+  font-size:clamp(1rem, 3vw, 1.2rem);
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(255, 77, 109, 0.4);
+  transition:all 0.3s ease;
+  vertical-align:middle;
+  touch-action:manipulation;
+}
+
+#playButton img{
+  width:clamp(25px, 6vw, 30px);
+  height:clamp(25px, 6vw, 30px);
+  vertical-align:middle;
+}
+
+/* OPTIMIZATIONS */
+@media (prefers-reduced-motion: reduce){
+  *{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
   }
 }
 
-@media (max-width: 480px) {
-  #introText{
-    font-size:1.5rem;
-  }
-  
-  #continueHint{
-    font-size:0.8rem;
-  }
-  
-  .question-box h1{
-    font-size:1.3rem;
-  }
-  
-  button{
-    font-size:0.9rem;
-    padding:10px 30px;
-    min-width:160px;
-  }
-  
-  .cheeky-popup{
-    font-size:0.85rem;
-    padding:10px 20px;
-  }
-  
-  #countdownText{
-    font-size:1.2rem;
-  }
-  
-  .heart-frame{
-    width:140px;
-    height:140px;
-  }
-  
-  .heart-frame::before,
-  .heart-frame::after{
-    width:70px;
-    height:112px;
-  }
-  
-  .heart-frame::before{
-    left:70px;
-  }
-  
-  .heart-message{
-    font-size:1.2rem;
-    padding:12px;
-  }
-  
-  .photo-slider{
-    width:90%;
-    max-width:400px;
-    height:45%;
-    max-height:350px;
-  }
+/* Loading optimization */
+.section:not(.active){
+  visibility:hidden;
+}
+
+.section.active{
+  visibility:visible;
 }
 
 </style>
@@ -609,7 +516,7 @@ button:hover{
 <!-- INTRO -->
 <div class="section active" id="intro">
   <div id="introText"></div>
-  <p id="continueHint">Click to continue...</p>
+  <p id="continueHint">Tap to continue...</p>
 </div>
 
 <!-- QUESTION -->
@@ -633,7 +540,6 @@ button:hover{
   <div id="countdownText"></div>
 </div>
 
-
 <!-- FINAL -->
 <div class="section" id="finalReveal">
   <div class="ominous-bg"></div>
@@ -641,30 +547,44 @@ button:hover{
     <img src="./WhatsApp Image 2026-02-12 at 22.15.29.jpeg" alt="Us">
   </div>
   <h1 style="color:#ff4d6d;margin-bottom:40px;position:relative;z-index:10;">It's Time.</h1>
-  <a href="./night-time.html" class="gift-button"><img src="./flowers.png" alt="flowers" style="width: 50px; height: 50px;"></a>
-
+  <a href="./night-time.html" class="gift-button"><img src="./flowers.png" alt="flowers"></a>
 </div>
 
-
 <script>
+
+/* MOBILE DETECTION & OPTIMIZATION */
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+// Reduce particle count on mobile
+const PARTICLE_COUNT = isMobile ? { petals: 45, stars: 50 } : { petals: 60, stars: 100 };
 
 /* SECTION CONTROL */
 const sections=document.querySelectorAll(".section");
 function showSection(id){
-  sections.forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+  sections.forEach(s=>{
+    s.classList.remove("active");
+    if(!s.classList.contains("active")){
+      s.style.visibility="hidden";
+    }
+  });
+  if(id){
+    const targetSection=document.getElementById(id);
+    targetSection.style.visibility="visible";
+    setTimeout(()=>targetSection.classList.add("active"),10);
+  }
 }
 
 /* DATE CHECK */
-const target=new Date("February 10, 2026 00:00:00").getTime();
+const target=new Date("February 14, 2026 00:00:00").getTime();
 let isValentine=new Date().getTime()>=target;
 
 /* INTRO CLICK FLOW */
-
 const introLines=[
   "Baby",
   "First",
   "Click play on this",
+  "finally redeemed myself",
   "No one writes handwritten notes anymore",
   "I would have",
   "but you'll go blind from my handwriting",
@@ -676,7 +596,7 @@ const introLines=[
   "They fall ever so gracefully littering the wind and footpaths,",
   "Making ordinary views a scenery",
   "Sakura blossoms look divine when kissed by sunlight",
-  "Sakura blossoms look ethereal in the night-time, so much so even the stars come out for a peak",
+  "Sakura blossoms look ethereal in the night-time, so much so even the stars come out for a peek",
   "Sakura blossoms smell like they look, soft, tender with a hint that gets you addicted",
   "Sakura blossoms make my day,",
   "Inspire me,",
@@ -694,59 +614,74 @@ let introIndex=0;
 const introText=document.getElementById("introText");
 introText.innerText=introLines[0];
 
-// Create audio element for background music
+// Audio with better mobile handling
 const bgMusic = new Audio('Billie Eilish - WILDFLOWER (Official Lyric Video) - BillieEilishVEVO (youtube).mp3');
 bgMusic.loop = true;
 bgMusic.volume = 0.5;
+bgMusic.preload = "auto";
 
-// Add play button for the third message
+// Handle iOS audio unlock
+let audioUnlocked = false;
+function unlockAudio(){
+  if(audioUnlocked) return;
+  bgMusic.play().then(()=>{
+    bgMusic.pause();
+    audioUnlocked = true;
+  }).catch(()=>{});
+}
+
+if(isIOS){
+  document.body.addEventListener('touchstart', unlockAudio, { once: true });
+}
+
+// Play button
 const playButton = document.createElement('button');
 playButton.id = 'playButton';
-playButton.innerHTML = '<img src="./img-removebg-preview.png" alt="play" style="width:30px;height:30px;">';
-playButton.style.cssText = `
-  display: none;
-  margin-left: 15px;
-  padding: 10px 20px;
-  background: linear-gradient(145deg, #ff4d6d, #ff1744);
-  border: none;
-  border-radius: 50px;
-  color: white;
-  font-size: 1.2rem;
-  cursor: pointer;
-  box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
-  transition: all 0.3s ease;
-  vertical-align: middle;
-`;
+playButton.innerHTML = '<img src="./img-removebg-preview.png" alt="play">';
 
 let isPlaying = false;
-playButton.onmouseover = () => playButton.style.transform = 'scale(1.1)';
-playButton.onmouseout = () => playButton.style.transform = 'scale(1)';
 playButton.onclick = (e) => {
   e.stopPropagation();
   if(!isPlaying){
-    bgMusic.play();
+    bgMusic.play().catch(err=>console.log('Audio play failed:', err));
     playButton.innerHTML = '⏸';
     isPlaying = true;
   } else {
     bgMusic.pause();
-    playButton.innerHTML = '▶';
+    playButton.innerHTML = '<img src="./img-removebg-preview.png" alt="play">';
     isPlaying = false;
   }
 };
 
 document.getElementById("intro").appendChild(playButton);
 
-document.getElementById("intro").addEventListener('click', function(e) {
-  // Don't advance if clicking the play button
-  if(e.target.id === 'playButton' || e.target.tagName === 'IMG') return;
+// Touch-optimized intro advancement
+let touchStartTime = 0;
+document.getElementById("intro").addEventListener('touchstart', function(e) {
+  touchStartTime = Date.now();
+}, { passive: true });
 
+document.getElementById("intro").addEventListener('touchend', function(e) {
+  // Prevent if it's a long press or if clicking play button
+  if(Date.now() - touchStartTime > 500) return;
+  if(e.target.id === 'playButton' || e.target.tagName === 'IMG') return;
+  
+  advanceIntro();
+}, { passive: true });
+
+// Also keep click for desktop
+document.getElementById("intro").addEventListener('click', function(e) {
+  if(e.target.id === 'playButton' || e.target.tagName === 'IMG') return;
+  advanceIntro();
+});
+
+function advanceIntro(){
   introIndex++;
   if(introIndex<introLines.length){
     introText.style.opacity=0;
     setTimeout(()=>{
       introText.innerText=introLines[introIndex];
       
-      // Show play button on "Click play on this" message (index 2)
       if(introIndex === 2){
         playButton.style.display = 'inline-block';
       } else {
@@ -756,24 +691,20 @@ document.getElementById("intro").addEventListener('click', function(e) {
       introText.style.opacity=1;
     },400);
   } else {
-    // After ALL intro messages are shown
     playButton.style.display = 'none';
     
-    // If it's Valentine's Day, go to final reveal
     if(isValentine){
       document.body.style.background="black";
       petals.style.display="none";
       stars.style.display="none";
       setTimeout(()=>showSection("finalReveal"),1500);
     } else {
-      // Otherwise go to question
       showSection("question");
     }
   }
-});
+}
 
 /* QUESTION - IMPROVED NO BUTTON */
-
 let messageToggle=false;
 const names=["Sylvester","Timothy","Jakasi","Pumm","David..that other one","Steve","Lano","some rando guy","some ABJ guy","some bingham guy"];
 
@@ -782,8 +713,9 @@ const messages=[
   "You already said yes to "
 ];
 
-document.getElementById("no").addEventListener('click', function() {
-  // Remove any existing popups first
+document.getElementById("no").addEventListener('click', function(e) {
+  e.preventDefault();
+  
   const existingPopups = document.querySelectorAll('.cheeky-popup');
   existingPopups.forEach(p => p.remove());
   
@@ -793,7 +725,6 @@ document.getElementById("no").addEventListener('click', function() {
   if(!messageToggle){
     popup.innerText=messages[0];
   } else {
-    // Pick ONE random name
     const randomName = names[Math.floor(Math.random() * names.length)];
     popup.innerText=messages[1] + randomName;
   }
@@ -801,24 +732,33 @@ document.getElementById("no").addEventListener('click', function() {
   messageToggle=!messageToggle;
   document.body.appendChild(popup);
   
-  // Remove after 1 second
   setTimeout(()=>{
     popup.style.opacity='0';
     popup.style.transition='opacity 0.3s ease';
     setTimeout(()=>popup.remove(),300);
   },1000);
-});
+}, { passive: false });
 
-document.getElementById("yes").addEventListener('click', function() {
+document.getElementById("yes").addEventListener('click', function(e) {
+  e.preventDefault();
   showSection("countdown");
-});
+}, { passive: false });
 
-/* FLOATING HEARTS ANIMATION */
+/* FLOATING HEARTS - OPTIMIZED */
+let heartsInterval;
 function createFloatingHearts(){
   const container = document.getElementById('floatingHearts');
   const hearts = ['💕','💜','💞','💓','🩷'];
   
-  setInterval(()=>{
+  // Slower spawn rate on mobile
+  const spawnRate = isMobile ? 1200 : 800;
+  
+  heartsInterval = setInterval(()=>{
+    // Limit total hearts on screen
+    if(container.children.length > (isMobile ? 10 : 20)){
+      container.firstChild?.remove();
+    }
+    
     const heart = document.createElement('div');
     heart.className = 'floating-heart';
     heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
@@ -832,14 +772,13 @@ function createFloatingHearts(){
     setTimeout(()=>{
       heart.remove();
     }, 12000);
-  }, 800);
+  }, spawnRate);
 }
 
 createFloatingHearts();
 
-/* COUNTDOWN WITH FULL TIME */
-
-setInterval(()=>{
+/* COUNTDOWN */
+let countdownInterval = setInterval(()=>{
   const now=new Date().getTime();
   const diff=target-now;
 
@@ -847,13 +786,13 @@ setInterval(()=>{
     isValentine=true;
     document.body.style.background="black";
     
-    // Hide current section
     showSection("");
     
     petals.style.display="none";
     stars.style.display="none";
     
-    // Show final reveal after delay
+    if(heartsInterval) clearInterval(heartsInterval);
+    
     setTimeout(()=>showSection("finalReveal"),1500);
   }
 
@@ -862,30 +801,30 @@ setInterval(()=>{
   const minutes=Math.floor((diff%(1000*60*60))/(1000*60));
   const seconds=Math.floor((diff%(1000*60))/1000);
 
-  document.getElementById("countdownText").innerText=
-  `${days}d ${hours}h ${minutes}m ${seconds}s`;
-
+  const countdownEl = document.getElementById("countdownText");
+  if(countdownEl){
+    countdownEl.innerText=`${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
 },1000);
 
-/* PETALS */
-
+/* PETALS - OPTIMIZED */
 const petals=document.getElementById("petals");
-const pctx=petals.getContext("2d");
+const pctx=petals.getContext("2d", { alpha: true });
 petals.width=window.innerWidth;
 petals.height=window.innerHeight;
 
 let petalArray=[];
-for(let i=0;i<60;i++){
+for(let i=0;i<PARTICLE_COUNT.petals;i++){
   petalArray.push({
     x:Math.random()*petals.width,
     y:Math.random()*petals.height-petals.height,
-    size:Math.random()*8+6,
-    speed:Math.random()*0.8+0.4,
+    size:Math.random()*6+4,
+    speed:Math.random()*0.6+0.3,
     rotation:Math.random()*Math.PI*2,
-    rotationSpeed:(Math.random()-0.5)*0.04,
+    rotationSpeed:(Math.random()-0.5)*0.03,
     swayOffset:Math.random()*Math.PI*2,
-    swaySpeed:Math.random()*0.02+0.01,
-    opacity:Math.random()*0.3+0.6
+    swaySpeed:Math.random()*0.015+0.008,
+    opacity:Math.random()*0.25+0.5
   });
 }
 
@@ -895,7 +834,6 @@ function drawPetal(x,y,size,rotation,opacity){
   pctx.rotate(rotation);
   pctx.globalAlpha=opacity;
   
-  // Create gradient for petal
   const gradient=pctx.createRadialGradient(0,0,0,0,0,size);
   gradient.addColorStop(0,'rgba(255,182,193,1)');
   gradient.addColorStop(0.5,'rgba(255,192,203,0.9)');
@@ -903,7 +841,6 @@ function drawPetal(x,y,size,rotation,opacity){
   
   pctx.fillStyle=gradient;
   
-  // Draw petal shape (teardrop/heart-like)
   pctx.beginPath();
   pctx.moveTo(0,-size);
   pctx.bezierCurveTo(
@@ -918,7 +855,6 @@ function drawPetal(x,y,size,rotation,opacity){
   );
   pctx.fill();
   
-  // Add subtle highlight
   pctx.fillStyle='rgba(255,255,255,0.3)';
   pctx.beginPath();
   pctx.ellipse(-size*0.2,-size*0.4,size*0.3,size*0.5,0.3,0,Math.PI*2);
@@ -927,19 +863,17 @@ function drawPetal(x,y,size,rotation,opacity){
   pctx.restore();
 }
 
+let petalAnimationId;
 function animatePetals(){
   pctx.clearRect(0,0,petals.width,petals.height);
   
   petalArray.forEach(p=>{
-    // Update position
     p.y+=p.speed;
     p.rotation+=p.rotationSpeed;
     p.swayOffset+=p.swaySpeed;
     
-    // Add gentle horizontal sway
-    const swayX=Math.sin(p.swayOffset)*20;
+    const swayX=Math.sin(p.swayOffset)*15;
     
-    // Reset when off screen
     if(p.y>petals.height+20){
       p.y=-20;
       p.x=Math.random()*petals.width;
@@ -948,31 +882,31 @@ function animatePetals(){
     drawPetal(p.x+swayX,p.y,p.size,p.rotation,p.opacity);
   });
   
-  requestAnimationFrame(animatePetals);
+  petalAnimationId = requestAnimationFrame(animatePetals);
 }
 animatePetals();
 
-/* STARS */
-
+/* STARS - OPTIMIZED */
 const stars=document.getElementById("stars");
-const sctx=stars.getContext("2d");
+const sctx=stars.getContext("2d", { alpha: true });
 stars.width=window.innerWidth;
 stars.height=window.innerHeight;
 
 let starArray=[];
-for(let i=0;i<100;i++){
+for(let i=0;i<PARTICLE_COUNT.stars;i++){
   starArray.push({
     x:Math.random()*stars.width,
     y:Math.random()*stars.height,
-    r:Math.random()*1.5,
+    r:Math.random()*1.2+0.3,
     a:Math.random()
   });
 }
 
+let starAnimationId;
 function animateStars(){
   sctx.clearRect(0,0,stars.width,stars.height);
   starArray.forEach(s=>{
-    s.a+=(Math.random()-0.5)*0.05;
+    s.a+=(Math.random()-0.5)*0.04;
     if(s.a<0)s.a=0;
     if(s.a>1)s.a=1;
     sctx.fillStyle="rgba(255,255,255,"+s.a+")";
@@ -980,17 +914,52 @@ function animateStars(){
     sctx.arc(s.x,s.y,s.r,0,Math.PI*2);
     sctx.fill();
   });
-  requestAnimationFrame(animateStars);
+  starAnimationId = requestAnimationFrame(animateStars);
 }
 animateStars();
 
-/* RESIZE HANDLER */
+/* RESIZE HANDLER - DEBOUNCED */
+let resizeTimeout;
 window.addEventListener('resize', function(){
-  petals.width=window.innerWidth;
-  petals.height=window.innerHeight;
-  stars.width=window.innerWidth;
-  stars.height=window.innerHeight;
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(()=>{
+    petals.width=window.innerWidth;
+    petals.height=window.innerHeight;
+    stars.width=window.innerWidth;
+    stars.height=window.innerHeight;
+    
+    // Reposition particles on resize
+    petalArray.forEach(p=>{
+      if(p.x>petals.width) p.x=petals.width-10;
+    });
+    starArray.forEach(s=>{
+      if(s.x>stars.width) s.x=stars.width-10;
+      if(s.y>stars.height) s.y=stars.height-10;
+    });
+  }, 250);
+}, { passive: true });
+
+/* CLEANUP ON PAGE HIDE */
+document.addEventListener('visibilitychange', function(){
+  if(document.hidden){
+    if(petalAnimationId) cancelAnimationFrame(petalAnimationId);
+    if(starAnimationId) cancelAnimationFrame(starAnimationId);
+    if(!isPlaying) bgMusic.pause();
+  } else {
+    animatePetals();
+    animateStars();
+  }
 });
+
+// Prevent zoom on double tap
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function(e){
+  const now = Date.now();
+  if(now - lastTouchEnd <= 300){
+    e.preventDefault();
+  }
+  lastTouchEnd = now;
+}, { passive: false });
 
 </script>
 </body>
