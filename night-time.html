@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Kemi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Zeyada&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+            background: linear-gradient(to bottom, #0a0e27 0%, #1a1a3e 50%, #2d1b4e 100%);
+        }
+
+        #valentine-page {
+            min-height: 100vh;
+            position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Stars */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Stars with Pink Hearts */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        /* Pink heart-shaped stars */
+        .star.heart-star {
+            width: 12px !important;
+            height: 12px !important;
+            background: transparent;
+            position: absolute;
+        }
+
+        .star.heart-star::before,
+        .star.heart-star::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 6px;
+            height: 10px;
+            background: #ffb6c1;
+            border-radius: 6px 6px 0 0;
+        }
+
+        .star.heart-star::before {
+            left: 6px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .star.heart-star::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Header */
+        .header {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+
+        .header h1 {
+            font-family: 'Zeyada', cursive;
+            font-size: 64px;
+            color: #ffb6c1;
+            text-shadow: 0 0 20px #ff69b4, 0 0 40px #ff1493;
+            margin-bottom: 20px;
+            animation: headerGlow 3s infinite;
+        }
+
+        @keyframes headerGlow {
+            0%, 100% { text-shadow: 0 0 20px #ff69b4, 0 0 40px #ff1493; }
+            50% { text-shadow: 0 0 30px #ff69b4, 0 0 60px #ff1493, 0 0 80px #ff69b4; }
+        }
+
+        .header p {
+            font-size: 24px;
+            color: #ffc0cb;
+            font-style: italic;
+        }
+
+        /* Clouds */
+        .clouds-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 80px;
+        }
+
+        .cloud {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        .cloud:nth-child(1) {
+            animation-delay: 0s;
+            animation-duration: 12s;
+        }
+
+        .cloud:nth-child(2) {
+            animation-delay: 2s;
+            animation-duration: 10s;
+        }
+
+        .cloud:nth-child(3) {
+            animation-delay: 4s;
+            animation-duration: 14s;
+        }
+
+        .cloud:nth-child(4) {
+            animation-delay: 3s;
+            animation-duration: 11s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px) translateX(0px) rotate(0deg);
+            }
+            20% {
+                transform: translateY(-20px) translateX(30px) rotate(1deg);
+            }
+            40% {
+                transform: translateY(-35px) translateX(50px) rotate(-1deg);
+            }
+            60% {
+                transform: translateY(-15px) translateX(35px) rotate(0.5deg);
+            }
+            80% {
+                transform: translateY(-25px) translateX(10px) rotate(-0.5deg);
+            }
+            100% {
+                transform: translateY(0px) translateX(0px) rotate(0deg);
+            }
+        }
+
+        .cloud:hover {
+            animation-play-state: paused;
+            transform: scale(1.08);
+            transition: transform 0.3s;
+        }
+
+        .cloud-shape {
+            width: 250px;
+            height: 120px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(220, 220, 255, 0.8));
+            border-radius: 100px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+
+        .cloud-shape::before {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(220, 220, 255, 0.85));
+            border-radius: 50%;
+            top: -50px;
+            left: 30px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        .cloud-shape::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(220, 220, 255, 0.85));
+            border-radius: 50%;
+            top: -40px;
+            right: 30px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        .cloud-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            font-weight: bold;
+            color: #6b4e9e;
+            z-index: 2;
+        }
+
+        /* Poem Display */
+        .poem-display {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background: url("./MacBook\ Air\ -\ 1.png");
+            background-size: 500px;
+            padding: 50px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            border-radius: 10px;
+        }
+
+        .poem-display.show {
+            display: block;
+        }
+
+        .poem-display p {
+            font-family: 'Zeyada', cursive;
+            font-size: 32px;
+            color: rgb(0,0,100);
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        .close-poem {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 40px;
+            cursor: pointer;
+            color: #666;
+            background: none;
+            border: none;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 999;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        /* Chocolate Section */
+        .chocolate-section {
+            position: relative;
+            z-index: 10;
+            max-width: 600px;
+            margin: 150px auto 100px;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .chocolate-text {
+            font-family: 'Zeyada', cursive;
+            font-size: 36px;
+            color: #ffb6c1;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px #ff69b4;
+        }
+
+        .chocolate-box-wrapper {
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .chocolate-box-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        .chocolate-box-wrapper img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .chocolate-box-wrapper.hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .clouds-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 0 10px;
+            }
+            
+            .header h1 {
+                font-size: 48px;
+            }
+            
+            .cloud {
+                justify-self: start;
+            }
+            
+            .cloud:nth-child(1) {
+                justify-self: start;
+                margin-left: 10%;
+            }
+            
+            .cloud:nth-child(2) {
+                justify-self: end;
+                margin-right: 5%;
+            }
+            
+            .cloud:nth-child(3) {
+                justify-self: start;
+                margin-left: 25%;
+            }
+            
+            .cloud:nth-child(4) {
+                justify-self: end;
+                margin-right: 15%;
+            }
+            
+            .cloud-shape {
+                width: 180px;
+                height: 90px;
+            }
+            
+            .cloud:nth-child(1) .cloud-shape {
+                width: 160px;
+                height: 80px;
+            }
+            
+            .cloud:nth-child(3) .cloud-shape {
+                width: 190px;
+                height: 95px;
+            }
+            
+            .cloud:nth-child(4) .cloud-shape {
+                width: 170px;
+                height: 85px;
+            }
+            
+            .cloud-shape::before {
+                width: 90px;
+                height: 90px;
+                top: -40px;
+                left: 20px;
+            }
+            
+            .cloud-shape::after {
+                width: 75px;
+                height: 75px;
+                top: -30px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="valentine-page">
+        <!-- Stars -->
+        <div id="stars-container"></div>
+
+        <!-- Header -->
+        <div class="header">
+            <h1>I Love You, Kemi</h1>
+            <p>These are a few thoughts I've had of you and wrote down</p>
+            <p>From my heart to your eyes</p>
+        </div>
+
+        <!-- Clouds -->
+        <div class="clouds-container">
+            <div class="cloud" onclick="showPoem(1)">
+                <div class="cloud-shape">
+                    <div class="cloud-number">1</div>
+                </div>
+            </div>
+            <div class="cloud" onclick="showPoem(2)">
+                <div class="cloud-shape">
+                    <div class="cloud-number">2</div>
+                </div>
+            </div>
+            <div class="cloud" onclick="showPoem(3)">
+                <div class="cloud-shape">
+                    <div class="cloud-number">3</div>
+                </div>
+            </div>
+            <div class="cloud" onclick="showPoem(4)">
+                <div class="cloud-shape">
+                    <div class="cloud-number">4</div>
+                </div>
+            </div>
+        </div>
+            <div class="cloud" onclick="showPoem(5)">
+                <div class="cloud-shape">
+                    <div class="cloud-number">5</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chocolate Section -->
+        <div class="chocolate-section">
+            <p class="chocolate-text">I got you chocolate...</p>
+            <div class="chocolate-box-wrapper" id="chocolate-closed" onclick="openChocolate()">
+                <img src="cbochoc-removebg-preview.png" alt="Closed Chocolate Box">
+            </div>
+            <div class="chocolate-box-wrapper hidden" id="chocolate-open" onclick="openChocolate()">
+                <img src="./opchoc-removebg-preview (1).png" alt="Open Chocolate Box">
+                <p class="chocolate-text" style="margin-top: 30px; font-size: 48px;">I Love You</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closePoem()"></div>
+
+    <!-- Poem Display -->
+    <div class="poem-display" id="poem-display">
+        <button class="close-poem" onclick="closePoem()">×</button>
+        <p id="poem-text"></p>
+    </div>
+
+    <script>
+        // Create stars with some pink hearts
+        function createStars() {
+            const container = document.getElementById('stars-container');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                
+                // Make 20% of stars into pink hearts
+                if (Math.random() < 0.2) {
+                    star.className = 'star heart-star';
+                } else {
+                    star.className = 'star';
+                    const size = Math.random() * 3 + 1;
+                    star.style.width = size + 'px';
+                    star.style.height = size + 'px';
+                }
+                
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(star);
+            }
+        }
+
+        
+        const poems = {
+            1: `I wish to never write about you
+I feel most beautiful writing is done in pain 
+I pray the inspiration of melancholy never has it's source in you`,
+            
+            2: `
+I can't force myself to write about you
+Because i want every word true
+Not mindless flatter
+Or poetic hyperbole
+I guess I'm just trying to live in this, live in us
+Before documenting
+Romanticising
+Or making a muse out of our love
+I want to be present 
+Be here,  love you...
+As He designed me to...`,
+            
+            3: `
+You looked pretty today
+Well you look pretty everyday
+A bit too much if you'd ask me 
+Light attracts and you do that so well
+But my problem are these moths drawn to you
+
+Quite annoying if you ask me`,
+            
+            4: `It infuriates me when i see the WhatsApp icon's notification and it's not you.
+
+Please, undo this spell
+`,
+
+       5: `I should fear you 
+Your actions have a direct effect on my heart
+I mean this not in a poetic sense
+But in a raw physical way..
+Your words draw lines.
+The mention of your name washes feelings all over.
+Your actions melt.
+I won't delve deep but the negatives crush...in the most real and grueling painful way. Zitelu,
+
+I am gone..`
+        };
+
+        function showPoem(number) {
+            document.getElementById('poem-text').textContent = poems[number];
+            document.getElementById('poem-display').classList.add('show');
+            document.getElementById('overlay').classList.add('show');
+        }
+
+        function closePoem() {
+            document.getElementById('poem-display').classList.remove('show');
+            document.getElementById('overlay').classList.remove('show');
+        }
+
+        function openChocolate() {
+            const closedBox = document.getElementById('chocolate-closed');
+            const openBox = document.getElementById('chocolate-open');
+            
+            if (closedBox.classList.contains('hidden')) {
+                // Currently open, close it
+                closedBox.classList.remove('hidden');
+                openBox.classList.add('hidden');
+            } else {
+                // Currently closed, open it
+                closedBox.classList.add('hidden');
+                openBox.classList.remove('hidden');
+            }
+        }
+
+        // Initialize
+        createStars();
+    </script>
+</body>
+</html>

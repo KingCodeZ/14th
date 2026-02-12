@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Kemi 🌸</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  overflow:hidden;
+  font-family:'Playfair Display', serif;
+  background:#fceff4;
+  transition:background 2s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.section{
+  position:absolute;
+  width:100%;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  opacity:0;
+  pointer-events:none;
+  transform:scale(1.05);
+  transition:opacity 1.2s ease, transform 1.2s ease;
+  padding:20px;
+}
+
+.section.active{
+  opacity:1;
+  pointer-events:all;
+  transform:scale(1);
+}
+
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:-2;
+}
+
+.vignette{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:radial-gradient(circle, transparent 60%, rgba(0,0,0,0.3));
+  pointer-events:none;
+  z-index:-1;
+}
+
+/* INTRO */
+
+#introText{
+  font-family:'Dancing Script', cursive;
+  font-size:2.5rem;
+  max-width:750px;
+  text-align:center;
+  transition:opacity .5s ease;
+  padding:0 20px;
+  cursor:pointer;
+  user-select:none;
+}
+
+#continueHint{
+  position:absolute;
+  bottom:40px;
+  font-family:'Dancing Script', cursive;
+  font-size:1rem;
+  color:rgba(128,0,0,0.6);
+  animation:fadeInOut 2s infinite;
+}
+
+@keyframes fadeInOut{
+  0%, 100%{opacity:0.4;}
+  50%{opacity:1;}
+}
+
+/* QUESTION PANEL */
+
+#question{
+  background:radial-gradient(circle at center, #ff6b8a, #cc0044, #800000);
+  overflow:hidden;
+}
+
+#question::before{
+  content:"";
+  position:absolute;
+  width:300px;
+  height:300px;
+  background:radial-gradient(circle, rgba(255,255,255,0.1), transparent);
+  border-radius:50%;
+  top:-100px;
+  right:-100px;
+  animation:floatBubble 8s infinite ease-in-out;
+}
+
+#question::after{
+  content:"";
+  position:absolute;
+  width:200px;
+  height:200px;
+  background:radial-gradient(circle, rgba(255,105,180,0.15), transparent);
+  border-radius:50%;
+  bottom:-50px;
+  left:-50px;
+  animation:floatBubble 6s infinite ease-in-out reverse;
+}
+
+@keyframes floatBubble{
+  0%, 100%{transform:translate(0,0) scale(1);}
+  50%{transform:translate(30px,-30px) scale(1.1);}
+}
+
+.question-box{
+  padding:60px 40px;
+  border-radius:30px;
+  background:linear-gradient(145deg,rgba(255,77,109,0.95),rgba(128,0,0,0.95));
+  backdrop-filter:blur(10px);
+  color:white;
+  box-shadow:0 0 60px rgba(255,0,60,0.6), 
+             inset 0 0 30px rgba(255,255,255,0.1);
+  text-align:center;
+  max-width:90%;
+  position:relative;
+  border:2px solid rgba(255,255,255,0.2);
+  animation:boxGlow 3s infinite alternate;
+}
+
+@keyframes boxGlow{
+  from{box-shadow:0 0 40px rgba(255,0,60,0.5), inset 0 0 20px rgba(255,255,255,0.1);}
+  to{box-shadow:0 0 80px rgba(255,0,100,0.8), inset 0 0 40px rgba(255,255,255,0.15);}
+}
+
+.question-box h1{
+  font-size:2rem;
+  margin-bottom:30px;
+  text-shadow:0 0 20px rgba(255,255,255,0.5),
+              0 0 40px rgba(255,105,180,0.5);
+  animation:textShimmer 2s infinite alternate;
+}
+
+@keyframes textShimmer{
+  from{text-shadow:0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,105,180,0.5);}
+  to{text-shadow:0 0 30px rgba(255,255,255,0.8), 0 0 60px rgba(255,105,180,0.8);}
+}
+
+.question-box::before{
+  content:"💕";
+  position:absolute;
+  top:-30px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:3rem;
+  animation:heartFloat 2s infinite ease-in-out;
+  filter:drop-shadow(0 5px 15px rgba(255,105,180,0.8));
+}
+
+@keyframes heartFloat{
+  0%, 100%{transform:translateX(-50%) translateY(0);}
+  50%{transform:translateX(-50%) translateY(-10px);}
+}
+
+.floating-hearts{
+  position:absolute;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.floating-heart{
+  position:absolute;
+  font-size:2rem;
+  opacity:0.3;
+  animation:floatUp 8s infinite linear;
+}
+
+@keyframes floatUp{
+  0%{
+    transform:translateY(0) rotate(0deg);
+    opacity:0.3;
+  }
+  50%{
+    opacity:0.5;
+  }
+  100%{
+    transform:translateY(-100vh) rotate(360deg);
+    opacity:0;
+  }
+}
+
+.question-box h1{
+  font-size:2rem;
+  margin-bottom:30px;
+}
+
+.button-container{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  align-items:center;
+}
+
+button{
+  padding:15px 40px;
+  border:none;
+  border-radius:40px;
+  font-size:1.1rem;
+  cursor:pointer;
+  transition:.3s;
+  min-width:200px;
+  font-weight:600;
+  touch-action:manipulation;
+  position:relative;
+  overflow:hidden;
+}
+
+button::before{
+  content:"";
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:0;
+  height:0;
+  border-radius:50%;
+  background:rgba(255,255,255,0.3);
+  transform:translate(-50%,-50%);
+  transition:width 0.6s, height 0.6s;
+}
+
+button:active::before{
+  width:300px;
+  height:300px;
+}
+
+button:active{
+  transform:scale(0.95);
+}
+
+button:hover{
+  transform:scale(1.05);
+}
+
+#yes{
+  background:linear-gradient(135deg, #ffffff, #ffe4e1);
+  color:#800000;
+  box-shadow:0 5px 25px rgba(255,255,255,0.4),
+             inset 0 -2px 10px rgba(255,105,180,0.3);
+  border:2px solid rgba(255,105,180,0.5);
+}
+
+#yes:hover{
+  box-shadow:0 8px 35px rgba(255,255,255,0.6),
+             inset 0 -2px 15px rgba(255,105,180,0.5);
+  transform:scale(1.08) translateY(-2px);
+}
+
+#no{
+  background:linear-gradient(135deg, #1a1a1a, #000000);
+  color:white;
+  box-shadow:0 5px 25px rgba(0,0,0,0.5),
+             inset 0 2px 10px rgba(255,255,255,0.1);
+  border:2px solid rgba(255,255,255,0.2);
+}
+
+#no:hover{
+  box-shadow:0 8px 35px rgba(0,0,0,0.7),
+             inset 0 2px 15px rgba(255,255,255,0.2);
+  transform:scale(1.08) translateY(-2px);
+}
+
+.cheeky-popup{
+  position:fixed;
+  bottom:80px;
+  left:50%;
+  transform:translateX(-50%);
+  background:white;
+  padding:15px 30px;
+  border-radius:30px;
+  font-family:'Dancing Script', cursive;
+  box-shadow:0 0 20px pink;
+  z-index:1000;
+  max-width:85%;
+  text-align:center;
+  font-size:1.1rem;
+  animation:popupSlide 0.3s ease;
+}
+
+@keyframes popupSlide{
+  from{
+    opacity:0;
+    transform:translateX(-50%) translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+  }
+}
+
+/* COUNTDOWN */
+
+.heart-frame{
+  position:relative;
+  width:200px;
+  height:200px;
+  margin:20px auto;
+  filter:drop-shadow(0 10px 30px rgba(255,105,180,0.5));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.heart-frame::before,
+.heart-frame::after{
+  content:"";
+  position:absolute;
+  top:0;
+  width:100px;
+  height:160px;
+  background:linear-gradient(145deg, #ff4d6d, #ff1744);
+  border-radius:100px 100px 0 0;
+}
+
+.heart-frame::before{
+  left:100px;
+  transform:rotate(-45deg);
+  transform-origin:0 100%;
+}
+
+.heart-frame::after{
+  left:0;
+  transform:rotate(45deg);
+  transform-origin:100% 100%;
+}
+
+.heart-message{
+  position:relative;
+  z-index:10;
+  font-family:'Dancing Script', cursive;
+  font-size:1.8rem;
+  color:white;
+  text-align:center;
+  text-shadow:0 2px 10px rgba(0,0,0,0.3);
+  padding:20px;
+  line-height:1.3;
+  animation:messageGlow 3s infinite alternate;
+}
+
+@keyframes messageGlow{
+  from{
+    text-shadow:0 2px 10px rgba(0,0,0,0.3),
+                0 0 20px rgba(255,255,255,0.3);
+  }
+  to{
+    text-shadow:0 2px 15px rgba(0,0,0,0.4),
+                0 0 30px rgba(255,255,255,0.6);
+  }
+}
+
+#countdownText{
+  font-size:2rem;
+  margin-top:20px;
+  text-align:center;
+  font-weight:bold;
+  padding:0 20px;
+}
+
+/* NIGHT */
+
+.night-mode{
+  background:radial-gradient(circle at top, #1a1a2e, #000);
+  color:white;
+}
+
+/* TREE */
+
+.tree-container{
+  position:absolute;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  opacity:.6;
+  z-index:-1;
+}
+
+.tree{
+  width:400px;
+  animation:treeGlow 4s infinite alternate ease-in-out;
+  filter:drop-shadow(0 0 15px pink);
+}
+
+@keyframes treeGlow{
+  from{filter:drop-shadow(0 0 10px pink);}
+  to{filter:drop-shadow(0 0 35px hotpink);}
+}
+
+/* OMINOUS */
+
+#finalReveal{
+  background:black;
+}
+
+.ominous-bg{
+  position:absolute;
+  width:200%;
+  height:200%;
+  background:radial-gradient(circle,#2b0000,#000);
+  animation:pulse 6s infinite alternate;
+  z-index:-1;
+}
+
+@keyframes pulse{
+  from{transform:scale(1);filter:brightness(.7);}
+  to{transform:scale(1.1);filter:brightness(1);}
+}
+
+/* BACKGROUND PHOTO SLIDER */
+.photo-slider{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:80%;
+  max-width:500px;
+  height:60%;
+  max-height:400px;
+  z-index:1;
+  opacity:0.15;
+  overflow:hidden;
+  border-radius:20px;
+  box-shadow:0 0 50px rgba(255,105,180,0.2);
+}
+
+.photo-slider img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.gift-button{
+  width:200px;
+  height:200px;
+  border-radius:30px;
+  background:linear-gradient(145deg,#ff4d6d,#800000);
+  box-shadow:0 0 50px red;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-decoration:none;
+  animation:giftGlow 2s infinite alternate;
+  font-size:3rem;
+  position:relative;
+  z-index:10;
+}
+
+@keyframes giftGlow{
+  from{box-shadow:0 0 30px red;}
+  to{box-shadow:0 0 80px crimson;}
+}
+
+.gift-button:hover{
+  transform:scale(1.1) rotate(3deg);
+}
+
+.gift-button:active{
+  transform:scale(0.95);
+}
+
+/* MOBILE OPTIMIZATIONS */
+
+@media (max-width: 768px) {
+  #introText{
+    font-size:1.8rem;
+  }
+  
+  #continueHint{
+    font-size:0.9rem;
+    bottom:30px;
+  }
+  
+  .question-box{
+    padding:40px 30px;
+  }
+  
+  .question-box h1{
+    font-size:1.5rem;
+  }
+  
+  button{
+    font-size:1rem;
+    padding:12px 35px;
+    min-width:180px;
+  }
+  
+  .cheeky-popup{
+    font-size:0.95rem;
+    padding:12px 25px;
+    bottom:60px;
+  }
+  
+  #countdownText{
+    font-size:1.5rem;
+  }
+  
+  .heart-frame{
+    width:160px;
+    height:160px;
+  }
+  
+  .heart-frame::before,
+  .heart-frame::after{
+    width:80px;
+    height:128px;
+  }
+  
+  .heart-frame::before{
+    left:80px;
+  }
+  
+  .heart-message{
+    font-size:1.4rem;
+    padding:15px;
+  }
+  
+  .photo-slider{
+    width:85%;
+    max-width:400px;
+    height:50%;
+    max-height:300px;
+  }
+  
+  .gift-button{
+    width:160px;
+    height:160px;
+    font-size:2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #introText{
+    font-size:1.5rem;
+  }
+  
+  #continueHint{
+    font-size:0.8rem;
+  }
+  
+  .question-box h1{
+    font-size:1.3rem;
+  }
+  
+  button{
+    font-size:0.9rem;
+    padding:10px 30px;
+    min-width:160px;
+  }
+  
+  .cheeky-popup{
+    font-size:0.85rem;
+    padding:10px 20px;
+  }
+  
+  #countdownText{
+    font-size:1.2rem;
+  }
+  
+  .heart-frame{
+    width:140px;
+    height:140px;
+  }
+  
+  .heart-frame::before,
+  .heart-frame::after{
+    width:70px;
+    height:112px;
+  }
+  
+  .heart-frame::before{
+    left:70px;
+  }
+  
+  .heart-message{
+    font-size:1.2rem;
+    padding:12px;
+  }
+  
+  .photo-slider{
+    width:90%;
+    max-width:400px;
+    height:45%;
+    max-height:350px;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="petals"></canvas>
+<canvas id="stars"></canvas>
+<div class="vignette"></div>
+
+<!-- INTRO -->
+<div class="section active" id="intro">
+  <div id="introText"></div>
+  <p id="continueHint">Click to continue...</p>
+</div>
+
+<!-- QUESTION -->
+<div class="section" id="question">
+  <div class="floating-hearts" id="floatingHearts"></div>
+  <div class="question-box">
+    <h1>Will you be my Valentine?</h1>
+    <div class="button-container">
+      <button id="yes">Yes 💖</button>
+      <button id="no">No 😅</button>
+    </div>
+  </div>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="section" id="countdown">
+  <h1>Counting Daylzz 💕</h1>
+  <div class="heart-frame">
+    <div class="heart-message">Of Souls<br>and Kings</div>
+  </div>
+  <div id="countdownText"></div>
+</div>
+
+
+<!-- FINAL -->
+<div class="section" id="finalReveal">
+  <div class="ominous-bg"></div>
+  <div class="photo-slider">
+    <img src="./WhatsApp Image 2026-02-12 at 22.15.29.jpeg" alt="Us">
+  </div>
+  <h1 style="color:#ff4d6d;margin-bottom:40px;position:relative;z-index:10;">It's Time.</h1>
+  <a href="./night-time.html" class="gift-button"><img src="./flowers.png" alt="flowers" style="width: 50px; height: 50px;"></a>
+
+</div>
+
+
+<script>
+
+/* SECTION CONTROL */
+const sections=document.querySelectorAll(".section");
+function showSection(id){
+  sections.forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+/* DATE CHECK */
+const target=new Date("February 10, 2026 00:00:00").getTime();
+let isValentine=new Date().getTime()>=target;
+
+/* INTRO CLICK FLOW */
+
+const introLines=[
+  "Baby",
+  "First",
+  "Click play on this",
+  "No one writes handwritten notes anymore",
+  "I would have",
+  "but you'll go blind from my handwriting",
+  "Sooo....",
+  "Here goes nothing",
+  "The Japanese see Sakura blossoms as a symbol of a new beginning",
+  "They come in Spring when Nature wakes and breathes away the chill of the dead winter",
+  "Their Light pink petals signify unfiltered beauty",
+  "They fall ever so gracefully littering the wind and footpaths,",
+  "Making ordinary views a scenery",
+  "Sakura blossoms look divine when kissed by sunlight",
+  "Sakura blossoms look ethereal in the night-time, so much so even the stars come out for a peak",
+  "Sakura blossoms smell like they look, soft, tender with a hint that gets you addicted",
+  "Sakura blossoms make my day,",
+  "Inspire me,",
+  "Makes me smile when i don't want to,",
+  "Makes me stay behind to revel in, even for seconds more",
+  "I love Japanese Sakura blossoms",
+  "This is not about Japanese Sakura blossoms",
+  "Sakuras and their beauty are Ephemeral",
+  "They last a week or two and are gone",
+  "I however am pushing for a lifetime with the beauty i have",
+  "Alas, the question..."
+];
+
+let introIndex=0;
+const introText=document.getElementById("introText");
+introText.innerText=introLines[0];
+
+// Create audio element for background music
+const bgMusic = new Audio('Billie Eilish - WILDFLOWER (Official Lyric Video) - BillieEilishVEVO (youtube).mp3');
+bgMusic.loop = true;
+bgMusic.volume = 0.5;
+
+// Add play button for the third message
+const playButton = document.createElement('button');
+playButton.id = 'playButton';
+playButton.innerHTML = '<img src="./img-removebg-preview.png" alt="play" style="width:30px;height:30px;">';
+playButton.style.cssText = `
+  display: none;
+  margin-left: 15px;
+  padding: 10px 20px;
+  background: linear-gradient(145deg, #ff4d6d, #ff1744);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+  transition: all 0.3s ease;
+  vertical-align: middle;
+`;
+
+let isPlaying = false;
+playButton.onmouseover = () => playButton.style.transform = 'scale(1.1)';
+playButton.onmouseout = () => playButton.style.transform = 'scale(1)';
+playButton.onclick = (e) => {
+  e.stopPropagation();
+  if(!isPlaying){
+    bgMusic.play();
+    playButton.innerHTML = '⏸';
+    isPlaying = true;
+  } else {
+    bgMusic.pause();
+    playButton.innerHTML = '▶';
+    isPlaying = false;
+  }
+};
+
+document.getElementById("intro").appendChild(playButton);
+
+document.getElementById("intro").addEventListener('click', function(e) {
+  // Don't advance if clicking the play button
+  if(e.target.id === 'playButton' || e.target.tagName === 'IMG') return;
+
+  introIndex++;
+  if(introIndex<introLines.length){
+    introText.style.opacity=0;
+    setTimeout(()=>{
+      introText.innerText=introLines[introIndex];
+      
+      // Show play button on "Click play on this" message (index 2)
+      if(introIndex === 2){
+        playButton.style.display = 'inline-block';
+      } else {
+        playButton.style.display = 'none';
+      }
+      
+      introText.style.opacity=1;
+    },400);
+  } else {
+    // After ALL intro messages are shown
+    playButton.style.display = 'none';
+    
+    // If it's Valentine's Day, go to final reveal
+    if(isValentine){
+      document.body.style.background="black";
+      petals.style.display="none";
+      stars.style.display="none";
+      setTimeout(()=>showSection("finalReveal"),1500);
+    } else {
+      // Otherwise go to question
+      showSection("question");
+    }
+  }
+});
+
+/* QUESTION - IMPROVED NO BUTTON */
+
+let messageToggle=false;
+const names=["Sylvester","Timothy","Jakasi","Pumm","David..that other one","Steve","Lano","some rando guy","some ABJ guy","some bingham guy"];
+
+const messages=[
+  "Hmm… that's suspicious. Try again 😌",
+  "You already said yes to "
+];
+
+document.getElementById("no").addEventListener('click', function() {
+  // Remove any existing popups first
+  const existingPopups = document.querySelectorAll('.cheeky-popup');
+  existingPopups.forEach(p => p.remove());
+  
+  const popup=document.createElement("div");
+  popup.className="cheeky-popup";
+
+  if(!messageToggle){
+    popup.innerText=messages[0];
+  } else {
+    // Pick ONE random name
+    const randomName = names[Math.floor(Math.random() * names.length)];
+    popup.innerText=messages[1] + randomName;
+  }
+
+  messageToggle=!messageToggle;
+  document.body.appendChild(popup);
+  
+  // Remove after 1 second
+  setTimeout(()=>{
+    popup.style.opacity='0';
+    popup.style.transition='opacity 0.3s ease';
+    setTimeout(()=>popup.remove(),300);
+  },1000);
+});
+
+document.getElementById("yes").addEventListener('click', function() {
+  showSection("countdown");
+});
+
+/* FLOATING HEARTS ANIMATION */
+function createFloatingHearts(){
+  const container = document.getElementById('floatingHearts');
+  const hearts = ['💕','💜','💞','💓','🩷'];
+  
+  setInterval(()=>{
+    const heart = document.createElement('div');
+    heart.className = 'floating-heart';
+    heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+    heart.style.left = Math.random() * 100 + '%';
+    heart.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+    heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
+    heart.style.animationDelay = Math.random() * 2 + 's';
+    
+    container.appendChild(heart);
+    
+    setTimeout(()=>{
+      heart.remove();
+    }, 12000);
+  }, 800);
+}
+
+createFloatingHearts();
+
+/* COUNTDOWN WITH FULL TIME */
+
+setInterval(()=>{
+  const now=new Date().getTime();
+  const diff=target-now;
+
+  if(diff<=0 && !isValentine){
+    isValentine=true;
+    document.body.style.background="black";
+    
+    // Hide current section
+    showSection("");
+    
+    petals.style.display="none";
+    stars.style.display="none";
+    
+    // Show final reveal after delay
+    setTimeout(()=>showSection("finalReveal"),1500);
+  }
+
+  const days=Math.floor(diff/(1000*60*60*24));
+  const hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+  const minutes=Math.floor((diff%(1000*60*60))/(1000*60));
+  const seconds=Math.floor((diff%(1000*60))/1000);
+
+  document.getElementById("countdownText").innerText=
+  `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+},1000);
+
+/* PETALS */
+
+const petals=document.getElementById("petals");
+const pctx=petals.getContext("2d");
+petals.width=window.innerWidth;
+petals.height=window.innerHeight;
+
+let petalArray=[];
+for(let i=0;i<60;i++){
+  petalArray.push({
+    x:Math.random()*petals.width,
+    y:Math.random()*petals.height-petals.height,
+    size:Math.random()*8+6,
+    speed:Math.random()*0.8+0.4,
+    rotation:Math.random()*Math.PI*2,
+    rotationSpeed:(Math.random()-0.5)*0.04,
+    swayOffset:Math.random()*Math.PI*2,
+    swaySpeed:Math.random()*0.02+0.01,
+    opacity:Math.random()*0.3+0.6
+  });
+}
+
+function drawPetal(x,y,size,rotation,opacity){
+  pctx.save();
+  pctx.translate(x,y);
+  pctx.rotate(rotation);
+  pctx.globalAlpha=opacity;
+  
+  // Create gradient for petal
+  const gradient=pctx.createRadialGradient(0,0,0,0,0,size);
+  gradient.addColorStop(0,'rgba(255,182,193,1)');
+  gradient.addColorStop(0.5,'rgba(255,192,203,0.9)');
+  gradient.addColorStop(1,'rgba(255,182,193,0.7)');
+  
+  pctx.fillStyle=gradient;
+  
+  // Draw petal shape (teardrop/heart-like)
+  pctx.beginPath();
+  pctx.moveTo(0,-size);
+  pctx.bezierCurveTo(
+    size*0.7,-size*0.7,
+    size*0.9,0,
+    0,size
+  );
+  pctx.bezierCurveTo(
+    -size*0.9,0,
+    -size*0.7,-size*0.7,
+    0,-size
+  );
+  pctx.fill();
+  
+  // Add subtle highlight
+  pctx.fillStyle='rgba(255,255,255,0.3)';
+  pctx.beginPath();
+  pctx.ellipse(-size*0.2,-size*0.4,size*0.3,size*0.5,0.3,0,Math.PI*2);
+  pctx.fill();
+  
+  pctx.restore();
+}
+
+function animatePetals(){
+  pctx.clearRect(0,0,petals.width,petals.height);
+  
+  petalArray.forEach(p=>{
+    // Update position
+    p.y+=p.speed;
+    p.rotation+=p.rotationSpeed;
+    p.swayOffset+=p.swaySpeed;
+    
+    // Add gentle horizontal sway
+    const swayX=Math.sin(p.swayOffset)*20;
+    
+    // Reset when off screen
+    if(p.y>petals.height+20){
+      p.y=-20;
+      p.x=Math.random()*petals.width;
+    }
+    
+    drawPetal(p.x+swayX,p.y,p.size,p.rotation,p.opacity);
+  });
+  
+  requestAnimationFrame(animatePetals);
+}
+animatePetals();
+
+/* STARS */
+
+const stars=document.getElementById("stars");
+const sctx=stars.getContext("2d");
+stars.width=window.innerWidth;
+stars.height=window.innerHeight;
+
+let starArray=[];
+for(let i=0;i<100;i++){
+  starArray.push({
+    x:Math.random()*stars.width,
+    y:Math.random()*stars.height,
+    r:Math.random()*1.5,
+    a:Math.random()
+  });
+}
+
+function animateStars(){
+  sctx.clearRect(0,0,stars.width,stars.height);
+  starArray.forEach(s=>{
+    s.a+=(Math.random()-0.5)*0.05;
+    if(s.a<0)s.a=0;
+    if(s.a>1)s.a=1;
+    sctx.fillStyle="rgba(255,255,255,"+s.a+")";
+    sctx.beginPath();
+    sctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    sctx.fill();
+  });
+  requestAnimationFrame(animateStars);
+}
+animateStars();
+
+/* RESIZE HANDLER */
+window.addEventListener('resize', function(){
+  petals.width=window.innerWidth;
+  petals.height=window.innerHeight;
+  stars.width=window.innerWidth;
+  stars.height=window.innerHeight;
+});
+
+</script>
+</body>
+</html>
