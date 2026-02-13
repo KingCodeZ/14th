@@ -83,6 +83,68 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
+        /* Music Player Button */
+        .music-player {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(255, 105, 180, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(255, 20, 147, 0.7);
+        }
+
+        .music-player.playing {
+            animation: musicPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% {
+                box-shadow: 0 4px 20px rgba(255, 105, 180, 0.5);
+            }
+            50% {
+                box-shadow: 0 8px 40px rgba(255, 20, 147, 0.8), 0 0 60px rgba(255, 105, 180, 0.6);
+            }
+        }
+
+        .music-icon {
+            font-size: 24px;
+            color: white;
+        }
+
+        .music-tooltip {
+            position: absolute;
+            bottom: -40px;
+            right: 0;
+            background: rgba(10, 14, 39, 0.9);
+            color: #ffb6c1;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.75em;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            font-family: 'Georgia', serif;
+        }
+
+        .music-player:hover .music-tooltip {
+            opacity: 1;
+        }
+
         /* Header */
         .header {
             position: relative;
@@ -148,6 +210,11 @@
         .cloud:nth-child(4) {
             animation-delay: 3s;
             animation-duration: 11s;
+        }
+
+        .cloud:nth-child(5) {
+            animation-delay: 1s;
+            animation-duration: 13s;
         }
 
         @keyframes float {
@@ -316,6 +383,17 @@
         }
 
         @media (max-width: 768px) {
+            .music-player {
+                width: 50px;
+                height: 50px;
+                top: 15px;
+                right: 15px;
+            }
+            
+            .music-icon {
+                font-size: 20px;
+            }
+
             .clouds-container {
                 grid-template-columns: 1fr;
                 gap: 40px;
@@ -349,6 +427,11 @@
                 justify-self: end;
                 margin-right: 15%;
             }
+
+            .cloud:nth-child(5) {
+                justify-self: start;
+                margin-left: 15%;
+            }
             
             .cloud-shape {
                 width: 180px;
@@ -369,6 +452,11 @@
                 width: 170px;
                 height: 85px;
             }
+
+            .cloud:nth-child(5) .cloud-shape {
+                width: 175px;
+                height: 88px;
+            }
             
             .cloud-shape::before {
                 width: 90px;
@@ -387,6 +475,16 @@
     </style>
 </head>
 <body>
+    <!-- Music Player Button -->
+    <button class="music-player" id="musicPlayer" onclick="toggleMusic()">
+        <span class="music-icon" id="musicIcon">🎵</span>
+        <span class="music-tooltip" id="musicTooltip">Play Music</span>
+    </button>
+
+    <audio id="backgroundMusic" loop>
+        <source src="./wildflower.mp3" type="audio/mpeg">
+    </audio>
+
     <div id="valentine-page">
         <!-- Stars -->
         <div id="stars-container"></div>
@@ -420,7 +518,6 @@
                     <div class="cloud-number">4</div>
                 </div>
             </div>
-        </div>
             <div class="cloud" onclick="showPoem(5)">
                 <div class="cloud-shape">
                     <div class="cloud-number">5</div>
@@ -451,6 +548,32 @@
     </div>
 
     <script>
+        let isPlaying = false;
+
+        // Music toggle function
+        function toggleMusic() {
+            const music = document.getElementById('backgroundMusic');
+            const musicPlayer = document.getElementById('musicPlayer');
+            const musicIcon = document.getElementById('musicIcon');
+            const musicTooltip = document.getElementById('musicTooltip');
+
+            if (isPlaying) {
+                music.pause();
+                musicPlayer.classList.remove('playing');
+                musicIcon.textContent = '🎵';
+                musicTooltip.textContent = 'Play Music';
+                isPlaying = false;
+            } else {
+                music.play().catch(e => {
+                    console.log('Playback failed:', e);
+                });
+                musicPlayer.classList.add('playing');
+                musicIcon.textContent = '🎶';
+                musicTooltip.textContent = 'Pause Music';
+                isPlaying = true;
+            }
+        }
+
         // Create stars with some pink hearts
         function createStars() {
             const container = document.getElementById('stars-container');
